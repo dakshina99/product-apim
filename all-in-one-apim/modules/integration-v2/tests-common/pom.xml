@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wso2.am</groupId>
-        <artifactId>apim-test-framework-testcontainers</artifactId>
+        <artifactId>integration-v2</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
@@ -18,8 +18,8 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipCertificateFetch>true</skipCertificateFetch>
     </properties>

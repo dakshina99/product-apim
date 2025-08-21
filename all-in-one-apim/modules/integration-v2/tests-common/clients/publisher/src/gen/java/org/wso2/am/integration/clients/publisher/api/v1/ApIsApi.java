@@ -1,6 +1,6 @@
 /*
  * WSO2 API Manager - Publisher API
- * This document specifies a **RESTful API** for WSO2 **API Manager** - **Publisher**.  # Authentication The Publisher REST API is protected using OAuth2 and access control is achieved through scopes. Before you start invoking the the API you need to obtain an access token with the required scopes. This guide will walk you through the steps that you will need to follow to obtain an access token. First you need to obtain the consumer key/secret key pair by calling the dynamic client registration (DCR) endpoint. You can add your preferred grant types in the payload. A Sample payload is shown below. ```   {   \"callbackUrl\":\"www.google.lk\",   \"clientName\":\"rest_api_publisher\",   \"owner\":\"admin\",   \"grantType\":\"client_credentials password refresh_token\",   \"saasApp\":true   } ``` Create a file (payload.json) with the above sample payload, and use the cURL shown bellow to invoke the DCR endpoint. Authorization header of this should contain the base64 encoded admin username and password. **Format of the request** ```   curl -X POST -H \"Authorization: Basic Base64(admin_username:admin_password)\" -H \"Content-Type: application/json\"   \\ -d @payload.json https://<host>:<servlet_port>/client-registration/v0.17/register ``` **Sample request** ```   curl -X POST -H \"Authorization: Basic YWRtaW46YWRtaW4=\" -H \"Content-Type: application/json\"   \\ -d @payload.json https://localhost:9443/client-registration/v0.17/register ``` Following is a sample response after invoking the above curl. ``` { \"clientId\": \"fOCi4vNJ59PpHucC2CAYfYuADdMa\", \"clientName\": \"rest_api_publisher\", \"callBackURL\": \"www.google.lk\", \"clientSecret\": \"a4FwHlq0iCIKVs2MPIIDnepZnYMa\", \"isSaasApplication\": true, \"appOwner\": \"admin\", \"jsonString\": \"{\\\"grant_types\\\":\\\"client_credentials password refresh_token\\\",\\\"redirect_uris\\\":\\\"www.google.lk\\\",\\\"client_name\\\":\\\"rest_api123\\\"}\", \"jsonAppAttribute\": \"{}\", \"tokenType\": null } ``` Next you must use the above client id and secret to obtain the access token. We will be using the password grant type for this, you can use any grant type you desire. You also need to add the proper **scope** when getting the access token. All possible scopes for publisher REST API can be viewed in **OAuth2 Security** section of this document and scope for each resource is given in **authorization** section of resource documentation. Following is the format of the request if you are using the password grant type. ``` curl -k -d \"grant_type=password&username=<admin_username>&password=<admin_passowrd&scope=<scopes seperated by space>\" \\ -H \"Authorization: Basic base64(cliet_id:client_secret)\" \\ https://<host>:<servlet_port>/oauth2/token ``` **Sample request** ``` curl https://localhost:9443/oauth2/token -k \\ -H \"Authorization: Basic Zk9DaTR2Tko1OVBwSHVjQzJDQVlmWXVBRGRNYTphNEZ3SGxxMGlDSUtWczJNUElJRG5lcFpuWU1h\" \\ -d \"grant_type=password&username=admin&password=admin&scope=apim:api_view apim:api_create\" ``` Shown below is a sample response to the above request. ``` { \"access_token\": \"e79bda48-3406-3178-acce-f6e4dbdcbb12\", \"refresh_token\": \"a757795d-e69f-38b8-bd85-9aded677a97c\", \"scope\": \"apim:api_create apim:api_view\", \"token_type\": \"Bearer\", \"expires_in\": 3600 } ``` Now you have a valid access token, which you can use to invoke an API. Navigate through the API descriptions to find the required API, obtain an access token as described above and invoke the API with the authentication header. If you use a different authentication mechanism, this process may change.  # Try out in Postman If you want to try-out the embedded postman collection with \"Run in Postman\" option, please follow the guidelines listed below. * All of the OAuth2 secured endpoints have been configured with an Authorization Bearer header with a parameterized access token. Before invoking any REST API resource make sure you run the `Register DCR Application` and `Generate Access Token` requests to fetch an access token with all required scopes. * Make sure you have an API Manager instance up and running. * Update the `basepath` parameter to match the hostname and port of the APIM instance.  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/a09044034b5c3c1b01a9) 
+ * This document specifies a **RESTful API** for WSO2 **API Manager** - **Publisher**.  # Authentication The Publisher REST API is protected using OAuth2 and access control is achieved through scopes. Before you start invoking the the API you need to obtain an access token with the required scopes. This guide will walk you through the steps that you will need to follow to obtain an access token. First you need to obtain the consumer key/secret key pair by calling the dynamic client registration (DCR) endpoint. You can add your preferred grant types in the payload. A Sample payload is shown below. ```   {   \"callbackUrl\":\"www.google.lk\",   \"clientName\":\"rest_api_publisher\",   \"owner\":\"admin\",   \"grantType\":\"client_credentials password refresh_token\",   \"saasApp\":true   } ``` Create a file (payload.json) with the above sample payload, and use the cURL shown bellow to invoke the DCR endpoint. Authorization header of this should contain the base64 encoded admin username and password. **Format of the request** ```   curl -X POST -H \"Authorization: Basic Base64(admin_username:admin_password)\" -H \"Content-Type: application/json\"   \\ -d @payload.json https://<host>:<servlet_port>/client-registration/v0.17/register ``` **Sample request** ```   curl -X POST -H \"Authorization: Basic YWRtaW46YWRtaW4=\" -H \"Content-Type: application/json\"   \\ -d @payload.json https://localhost:9443/client-registration/v0.17/register ``` Following is a sample response after invoking the above curl. ``` { \"clientId\": \"fOCi4vNJ59PpHucC2CAYfYuADdMa\", \"clientName\": \"rest_api_publisher\", \"callBackURL\": \"www.google.lk\", \"clientSecret\": \"a4FwHlq0iCIKVs2MPIIDnepZnYMa\", \"isSaasApplication\": true, \"appOwner\": \"admin\", \"jsonString\": \"{\\\"grant_types\\\":\\\"client_credentials password refresh_token\\\",\\\"redirect_uris\\\":\\\"www.google.lk\\\",\\\"client_name\\\":\\\"rest_api123\\\"}\", \"jsonAppAttribute\": \"{}\", \"tokenType\": null } ``` Next you must use the above client id and secret to obtain the access token. We will be using the password grant type for this, you can use any grant type you desire. You also need to add the proper **scope** when getting the access token. All possible scopes for publisher REST API can be viewed in **OAuth2 Security** section of this document and scope for each resource is given in **authorization** section of resource documentation. Following is the format of the request if you are using the password grant type. ``` curl -k -d \"grant_type=password&username=<admin_username>&password=<admin_passowrd&scope=<scopes seperated by space>\" \\ -H \"Authorization: Basic base64(cliet_id:client_secret)\" \\ https://<host>:<servlet_port>/oauth2/token ``` **Sample request** ``` curl https://localhost:9443/oauth2/token -k \\ -H \"Authorization: Basic Zk9DaTR2Tko1OVBwSHVjQzJDQVlmWXVBRGRNYTphNEZ3SGxxMGlDSUtWczJNUElJRG5lcFpuWU1h\" \\ -d \"grant_type=password&username=admin&password=admin&scope=apim:api_view apim:api_create\" ``` Shown below is a sample response to the above request. ``` { \"access_token\": \"e79bda48-3406-3178-acce-f6e4dbdcbb12\", \"refresh_token\": \"a757795d-e69f-38b8-bd85-9aded677a97c\", \"scope\": \"apim:api_create apim:api_view\", \"token_type\": \"Bearer\", \"expires_in\": 3600 } ``` Now you have a valid access token, which you can use to invoke an API. Navigate through the API descriptions to find the required API, obtain an access token as described above and invoke the API with the authentication header. If you use a different authentication mechanism, this process may change.  # Try out in Postman If you want to try-out the embedded postman collection with \"Run in Postman\" option, please follow the guidelines listed below. * All of the OAuth2 secured endpoints have been configured with an Authorization Bearer header with a parameterized access token. Before invoking any REST API resource make sure you run the `Register DCR Application` and `Generate Access Token` requests to fetch an access token with all required scopes. * Make sure you have an API Manager instance up and running. * Update the `basepath` parameter to match the hostname and port of the APIM instance.  [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/17491134-edb4ef7a-1ac7-420b-8651-2d9fd5585f6c) 
  *
  * The version of the OpenAPI document: v4
  * Contact: architecture@wso2.com
@@ -35,7 +35,6 @@ import java.io.File;
 import org.wso2.am.integration.clients.publisher.api.v1.dto.FileInfoDTO;
 import org.wso2.am.integration.clients.publisher.api.v1.dto.MockResponsePayloadListDTO;
 import org.wso2.am.integration.clients.publisher.api.v1.dto.ResourcePathListDTO;
-import org.wso2.am.integration.clients.publisher.api.v1.dto.SequenceBackendListDTO;
 import org.wso2.am.integration.clients.publisher.api.v1.dto.ThrottlingPolicyDTO;
 import org.wso2.am.integration.clients.publisher.api.v1.dto.TopicListDTO;
 import org.wso2.am.integration.clients.publisher.api.v1.dto.WSDLInfoDTO;
@@ -422,7 +421,7 @@ public class ApIsApi {
     }
 
     /**
-     * get environment specific API properties
+     * Get environment specific API properties
      * This operation can be used to retrieve environment specific API properties from an existing API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param envId **Env ID** consisting of the **UUID** of the gateway environment.  (required)
@@ -443,7 +442,7 @@ public class ApIsApi {
     }
 
     /**
-     * get environment specific API properties
+     * Get environment specific API properties
      * This operation can be used to retrieve environment specific API properties from an existing API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param envId **Env ID** consisting of the **UUID** of the gateway environment.  (required)
@@ -465,7 +464,7 @@ public class ApIsApi {
     }
 
     /**
-     * get environment specific API properties (asynchronously)
+     * Get environment specific API properties (asynchronously)
      * This operation can be used to retrieve environment specific API properties from an existing API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param envId **Env ID** consisting of the **UUID** of the gateway environment.  (required)
@@ -1098,7 +1097,7 @@ public class ApIsApi {
 
     /**
      * Generate internal API Key to invoke APIS.
-     * This operation can be used to generate internal api key which used to invoke API. 
+     * This operation can be used to generate internal API key which used to invoke API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @return APIKeyDTO
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1117,7 +1116,7 @@ public class ApIsApi {
 
     /**
      * Generate internal API Key to invoke APIS.
-     * This operation can be used to generate internal api key which used to invoke API. 
+     * This operation can be used to generate internal API key which used to invoke API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @return ApiResponse&lt;APIKeyDTO&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1137,7 +1136,7 @@ public class ApIsApi {
 
     /**
      * Generate internal API Key to invoke APIS. (asynchronously)
-     * This operation can be used to generate internal api key which used to invoke API. 
+     * This operation can be used to generate internal API key which used to invoke API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -1503,7 +1502,7 @@ public class ApIsApi {
 
     /**
      * Get Resource Paths of an API
-     * This operation can be used to retrieve resource paths defined for a specific api. 
+     * This operation can be used to retrieve resource paths defined for a specific API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param limit Maximum size of resource array to return.  (optional, default to 25)
      * @param offset Starting point within the complete list of items qualified.  (optional, default to 0)
@@ -1526,7 +1525,7 @@ public class ApIsApi {
 
     /**
      * Get Resource Paths of an API
-     * This operation can be used to retrieve resource paths defined for a specific api. 
+     * This operation can be used to retrieve resource paths defined for a specific API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param limit Maximum size of resource array to return.  (optional, default to 25)
      * @param offset Starting point within the complete list of items qualified.  (optional, default to 0)
@@ -1550,7 +1549,7 @@ public class ApIsApi {
 
     /**
      * Get Resource Paths of an API (asynchronously)
-     * This operation can be used to retrieve resource paths defined for a specific api. 
+     * This operation can be used to retrieve resource paths defined for a specific API. 
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param limit Maximum size of resource array to return.  (optional, default to 25)
      * @param offset Starting point within the complete list of items qualified.  (optional, default to 0)
@@ -1975,10 +1974,8 @@ public class ApIsApi {
      * Build call for getAllAPIs
      * @param limit Maximum size of resource array to return.  (optional, default to 25)
      * @param offset Starting point within the complete list of items qualified.  (optional, default to 0)
-     * @param sortBy Criteria for sorting.  (optional, default to createdTime)
-     * @param sortOrder Order of sorting(ascending/descending).  (optional, default to desc)
      * @param xWSO2Tenant For cross-tenant invocations, this is used to specify the tenant domain, where the resource need to be   retirieved from.  (optional)
-     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, doc, provider**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
+     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, provider, api-category, tags, doc, contexttemplate, lcstate, content, type, label, enablestore, thirdparty**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
      * @param ifNoneMatch Validator for conditional requests; based on the ETag of the formerly retrieved variant of the resource.  (optional)
      * @param accept Media types acceptable for the response. Default is application/json.  (optional, default to &quot;application/json&quot;)
      * @param _callback Callback for upload/download progress
@@ -1992,7 +1989,7 @@ public class ApIsApi {
         <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getAllAPIsCall(Integer limit, Integer offset, String sortBy, String sortOrder, String xWSO2Tenant, String query, String ifNoneMatch, String accept, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getAllAPIsCall(Integer limit, Integer offset, String xWSO2Tenant, String query, String ifNoneMatch, String accept, final ApiCallback _callback) throws ApiException {
         Object localVarPostBody = null;
 
         // create path and map variables
@@ -2006,14 +2003,6 @@ public class ApIsApi {
 
         if (offset != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("offset", offset));
-        }
-
-        if (sortBy != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sortBy", sortBy));
-        }
-
-        if (sortOrder != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sortOrder", sortOrder));
         }
 
         if (query != null) {
@@ -2054,10 +2043,10 @@ public class ApIsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getAllAPIsValidateBeforeCall(Integer limit, Integer offset, String sortBy, String sortOrder, String xWSO2Tenant, String query, String ifNoneMatch, String accept, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getAllAPIsValidateBeforeCall(Integer limit, Integer offset, String xWSO2Tenant, String query, String ifNoneMatch, String accept, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call localVarCall = getAllAPIsCall(limit, offset, sortBy, sortOrder, xWSO2Tenant, query, ifNoneMatch, accept, _callback);
+        okhttp3.Call localVarCall = getAllAPIsCall(limit, offset, xWSO2Tenant, query, ifNoneMatch, accept, _callback);
         return localVarCall;
 
     }
@@ -2067,10 +2056,8 @@ public class ApIsApi {
      * This operation provides you a list of available APIs qualifying under a given search condition.  Each retrieved API is represented with a minimal amount of attributes. If you want to get complete details of an API, you need to use **Get details of an API** operation. 
      * @param limit Maximum size of resource array to return.  (optional, default to 25)
      * @param offset Starting point within the complete list of items qualified.  (optional, default to 0)
-     * @param sortBy Criteria for sorting.  (optional, default to createdTime)
-     * @param sortOrder Order of sorting(ascending/descending).  (optional, default to desc)
      * @param xWSO2Tenant For cross-tenant invocations, this is used to specify the tenant domain, where the resource need to be   retirieved from.  (optional)
-     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, doc, provider**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
+     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, provider, api-category, tags, doc, contexttemplate, lcstate, content, type, label, enablestore, thirdparty**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
      * @param ifNoneMatch Validator for conditional requests; based on the ETag of the formerly retrieved variant of the resource.  (optional)
      * @param accept Media types acceptable for the response. Default is application/json.  (optional, default to &quot;application/json&quot;)
      * @return APIListDTO
@@ -2083,8 +2070,8 @@ public class ApIsApi {
         <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
      </table>
      */
-    public APIListDTO getAllAPIs(Integer limit, Integer offset, String sortBy, String sortOrder, String xWSO2Tenant, String query, String ifNoneMatch, String accept) throws ApiException {
-        ApiResponse<APIListDTO> localVarResp = getAllAPIsWithHttpInfo(limit, offset, sortBy, sortOrder, xWSO2Tenant, query, ifNoneMatch, accept);
+    public APIListDTO getAllAPIs(Integer limit, Integer offset, String xWSO2Tenant, String query, String ifNoneMatch, String accept) throws ApiException {
+        ApiResponse<APIListDTO> localVarResp = getAllAPIsWithHttpInfo(limit, offset, xWSO2Tenant, query, ifNoneMatch, accept);
         return localVarResp.getData();
     }
 
@@ -2093,10 +2080,8 @@ public class ApIsApi {
      * This operation provides you a list of available APIs qualifying under a given search condition.  Each retrieved API is represented with a minimal amount of attributes. If you want to get complete details of an API, you need to use **Get details of an API** operation. 
      * @param limit Maximum size of resource array to return.  (optional, default to 25)
      * @param offset Starting point within the complete list of items qualified.  (optional, default to 0)
-     * @param sortBy Criteria for sorting.  (optional, default to createdTime)
-     * @param sortOrder Order of sorting(ascending/descending).  (optional, default to desc)
      * @param xWSO2Tenant For cross-tenant invocations, this is used to specify the tenant domain, where the resource need to be   retirieved from.  (optional)
-     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, doc, provider**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
+     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, provider, api-category, tags, doc, contexttemplate, lcstate, content, type, label, enablestore, thirdparty**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
      * @param ifNoneMatch Validator for conditional requests; based on the ETag of the formerly retrieved variant of the resource.  (optional)
      * @param accept Media types acceptable for the response. Default is application/json.  (optional, default to &quot;application/json&quot;)
      * @return ApiResponse&lt;APIListDTO&gt;
@@ -2109,8 +2094,8 @@ public class ApIsApi {
         <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<APIListDTO> getAllAPIsWithHttpInfo(Integer limit, Integer offset, String sortBy, String sortOrder, String xWSO2Tenant, String query, String ifNoneMatch, String accept) throws ApiException {
-        okhttp3.Call localVarCall = getAllAPIsValidateBeforeCall(limit, offset, sortBy, sortOrder, xWSO2Tenant, query, ifNoneMatch, accept, null);
+    public ApiResponse<APIListDTO> getAllAPIsWithHttpInfo(Integer limit, Integer offset, String xWSO2Tenant, String query, String ifNoneMatch, String accept) throws ApiException {
+        okhttp3.Call localVarCall = getAllAPIsValidateBeforeCall(limit, offset, xWSO2Tenant, query, ifNoneMatch, accept, null);
         Type localVarReturnType = new TypeToken<APIListDTO>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -2120,10 +2105,8 @@ public class ApIsApi {
      * This operation provides you a list of available APIs qualifying under a given search condition.  Each retrieved API is represented with a minimal amount of attributes. If you want to get complete details of an API, you need to use **Get details of an API** operation. 
      * @param limit Maximum size of resource array to return.  (optional, default to 25)
      * @param offset Starting point within the complete list of items qualified.  (optional, default to 0)
-     * @param sortBy Criteria for sorting.  (optional, default to createdTime)
-     * @param sortOrder Order of sorting(ascending/descending).  (optional, default to desc)
      * @param xWSO2Tenant For cross-tenant invocations, this is used to specify the tenant domain, where the resource need to be   retirieved from.  (optional)
-     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, doc, provider**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
+     * @param query **Search condition**.  You can search in attributes by using an **\&quot;&lt;attribute&gt;:\&quot;** modifier.  Eg. \&quot;provider:wso2\&quot; will match an API if the provider of the API contains \&quot;wso2\&quot;. \&quot;provider:\&quot;wso2\&quot;\&quot; will match an API if the provider of the API is exactly \&quot;wso2\&quot;. \&quot;status:PUBLISHED\&quot; will match an API if the API is in PUBLISHED state.  Also you can use combined modifiers Eg. name:pizzashack version:v1 will match an API if the name of the API is pizzashack and version is v1.  Supported attribute modifiers are [**version, context, name, status, description, provider, api-category, tags, doc, contexttemplate, lcstate, content, type, label, enablestore, thirdparty**]  If no advanced attribute modifier has been specified,  the API names containing the search term will be returned as a result.  Please note that you need to use encoded URL (URL encoding) if you are using a client which does not support URL encoding (such as curl)  (optional)
      * @param ifNoneMatch Validator for conditional requests; based on the ETag of the formerly retrieved variant of the resource.  (optional)
      * @param accept Media types acceptable for the response. Default is application/json.  (optional, default to &quot;application/json&quot;)
      * @param _callback The callback to be executed when the API call finishes
@@ -2137,9 +2120,9 @@ public class ApIsApi {
         <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getAllAPIsAsync(Integer limit, Integer offset, String sortBy, String sortOrder, String xWSO2Tenant, String query, String ifNoneMatch, String accept, final ApiCallback<APIListDTO> _callback) throws ApiException {
+    public okhttp3.Call getAllAPIsAsync(Integer limit, Integer offset, String xWSO2Tenant, String query, String ifNoneMatch, String accept, final ApiCallback<APIListDTO> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getAllAPIsValidateBeforeCall(limit, offset, sortBy, sortOrder, xWSO2Tenant, query, ifNoneMatch, accept, _callback);
+        okhttp3.Call localVarCall = getAllAPIsValidateBeforeCall(limit, offset, xWSO2Tenant, query, ifNoneMatch, accept, _callback);
         Type localVarReturnType = new TypeToken<APIListDTO>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -2272,254 +2255,6 @@ public class ApIsApi {
 
         okhttp3.Call localVarCall = getGeneratedMockScriptsOfAPIValidateBeforeCall(apiId, ifNoneMatch, _callback);
         Type localVarReturnType = new TypeToken<MockResponsePayloadListDTO>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
-        return localVarCall;
-    }
-    /**
-     * Build call for getSequenceBackendContent
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Custom Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call getSequenceBackendContentCall(String type, String apiId, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/apis/{apiId}/sequence-backend/{type}/content"
-            .replaceAll("\\{" + "type" + "\\}", localVarApiClient.escapeString(type.toString()))
-            .replaceAll("\\{" + "apiId" + "\\}", localVarApiClient.escapeString(apiId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        final String[] localVarAccepts = {
-            "application/xml", "application/json"
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        String[] localVarAuthNames = new String[] { "OAuth2Security" };
-        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSequenceBackendContentValidateBeforeCall(String type, String apiId, final ApiCallback _callback) throws ApiException {
-        
-        // verify the required parameter 'type' is set
-        if (type == null) {
-            throw new ApiException("Missing the required parameter 'type' when calling getSequenceBackendContent(Async)");
-        }
-        
-        // verify the required parameter 'apiId' is set
-        if (apiId == null) {
-            throw new ApiException("Missing the required parameter 'apiId' when calling getSequenceBackendContent(Async)");
-        }
-        
-
-        okhttp3.Call localVarCall = getSequenceBackendContentCall(type, apiId, _callback);
-        return localVarCall;
-
-    }
-
-    /**
-     * Get Sequence of Custom Backend
-     * This operation can be used to get Sequence of the Custom Backend
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @return File
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Custom Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public File getSequenceBackendContent(String type, String apiId) throws ApiException {
-        ApiResponse<File> localVarResp = getSequenceBackendContentWithHttpInfo(type, apiId);
-        return localVarResp.getData();
-    }
-
-    /**
-     * Get Sequence of Custom Backend
-     * This operation can be used to get Sequence of the Custom Backend
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @return ApiResponse&lt;File&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Custom Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<File> getSequenceBackendContentWithHttpInfo(String type, String apiId) throws ApiException {
-        okhttp3.Call localVarCall = getSequenceBackendContentValidateBeforeCall(type, apiId, null);
-        Type localVarReturnType = new TypeToken<File>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
-    }
-
-    /**
-     * Get Sequence of Custom Backend (asynchronously)
-     * This operation can be used to get Sequence of the Custom Backend
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Custom Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call getSequenceBackendContentAsync(String type, String apiId, final ApiCallback<File> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = getSequenceBackendContentValidateBeforeCall(type, apiId, _callback);
-        Type localVarReturnType = new TypeToken<File>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
-        return localVarCall;
-    }
-    /**
-     * Build call for getSequenceBackendData
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Sequence Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call getSequenceBackendDataCall(String apiId, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/apis/{apiId}/sequence-backend"
-            .replaceAll("\\{" + "apiId" + "\\}", localVarApiClient.escapeString(apiId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        String[] localVarAuthNames = new String[] { "OAuth2Security" };
-        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSequenceBackendDataValidateBeforeCall(String apiId, final ApiCallback _callback) throws ApiException {
-        
-        // verify the required parameter 'apiId' is set
-        if (apiId == null) {
-            throw new ApiException("Missing the required parameter 'apiId' when calling getSequenceBackendData(Async)");
-        }
-        
-
-        okhttp3.Call localVarCall = getSequenceBackendDataCall(apiId, _callback);
-        return localVarCall;
-
-    }
-
-    /**
-     * Get Sequence Backends of the API
-     * This operation can be used to get Sequence Backend data of the API
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @return SequenceBackendListDTO
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Sequence Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public SequenceBackendListDTO getSequenceBackendData(String apiId) throws ApiException {
-        ApiResponse<SequenceBackendListDTO> localVarResp = getSequenceBackendDataWithHttpInfo(apiId);
-        return localVarResp.getData();
-    }
-
-    /**
-     * Get Sequence Backends of the API
-     * This operation can be used to get Sequence Backend data of the API
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @return ApiResponse&lt;SequenceBackendListDTO&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Sequence Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<SequenceBackendListDTO> getSequenceBackendDataWithHttpInfo(String apiId) throws ApiException {
-        okhttp3.Call localVarCall = getSequenceBackendDataValidateBeforeCall(apiId, null);
-        Type localVarReturnType = new TypeToken<SequenceBackendListDTO>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
-    }
-
-    /**
-     * Get Sequence Backends of the API (asynchronously)
-     * This operation can be used to get Sequence Backend data of the API
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Requested API Sequence Backend is returned  </td><td>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 406 </td><td> Not Acceptable. The requested media type is not supported. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call getSequenceBackendDataAsync(String apiId, final ApiCallback<SequenceBackendListDTO> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = getSequenceBackendDataValidateBeforeCall(apiId, _callback);
-        Type localVarReturnType = new TypeToken<SequenceBackendListDTO>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
@@ -2836,7 +2571,7 @@ public class ApIsApi {
     }
 
     /**
-     * import an AsyncAPI Specification
+     * Import an AsyncAPI Specification
      * This operation can be used to create and API from the AsyncAPI Specification. Provide either &#39;url&#39; or &#39;file&#39; to specify the definition. Specify additionalProperties with **at least** API&#39;s name, version, context and endpointConfig.
      * @param file Definition to upload as a file (optional)
      * @param url Definition url (optional)
@@ -2857,7 +2592,7 @@ public class ApIsApi {
     }
 
     /**
-     * import an AsyncAPI Specification
+     * Import an AsyncAPI Specification
      * This operation can be used to create and API from the AsyncAPI Specification. Provide either &#39;url&#39; or &#39;file&#39; to specify the definition. Specify additionalProperties with **at least** API&#39;s name, version, context and endpointConfig.
      * @param file Definition to upload as a file (optional)
      * @param url Definition url (optional)
@@ -2879,7 +2614,7 @@ public class ApIsApi {
     }
 
     /**
-     * import an AsyncAPI Specification (asynchronously)
+     * Import an AsyncAPI Specification (asynchronously)
      * This operation can be used to create and API from the AsyncAPI Specification. Provide either &#39;url&#39; or &#39;file&#39; to specify the definition. Specify additionalProperties with **at least** API&#39;s name, version, context and endpointConfig.
      * @param file Definition to upload as a file (optional)
      * @param url Definition url (optional)
@@ -3571,286 +3306,6 @@ public class ApIsApi {
         return localVarCall;
     }
     /**
-     * Build call for sequenceBackendDelete
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Resource successfully deleted.  </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call sequenceBackendDeleteCall(String type, String apiId, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/apis/{apiId}/sequence-backend/{type}"
-            .replaceAll("\\{" + "type" + "\\}", localVarApiClient.escapeString(type.toString()))
-            .replaceAll("\\{" + "apiId" + "\\}", localVarApiClient.escapeString(apiId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        String[] localVarAuthNames = new String[] { "OAuth2Security" };
-        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call sequenceBackendDeleteValidateBeforeCall(String type, String apiId, final ApiCallback _callback) throws ApiException {
-        
-        // verify the required parameter 'type' is set
-        if (type == null) {
-            throw new ApiException("Missing the required parameter 'type' when calling sequenceBackendDelete(Async)");
-        }
-        
-        // verify the required parameter 'apiId' is set
-        if (apiId == null) {
-            throw new ApiException("Missing the required parameter 'apiId' when calling sequenceBackendDelete(Async)");
-        }
-        
-
-        okhttp3.Call localVarCall = sequenceBackendDeleteCall(type, apiId, _callback);
-        return localVarCall;
-
-    }
-
-    /**
-     * Delete Sequence Backend of the API
-     * This operation can be used to remove the Sequence Backend of the API
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Resource successfully deleted.  </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public void sequenceBackendDelete(String type, String apiId) throws ApiException {
-        sequenceBackendDeleteWithHttpInfo(type, apiId);
-    }
-
-    /**
-     * Delete Sequence Backend of the API
-     * This operation can be used to remove the Sequence Backend of the API
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @return ApiResponse&lt;Void&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Resource successfully deleted.  </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<Void> sequenceBackendDeleteWithHttpInfo(String type, String apiId) throws ApiException {
-        okhttp3.Call localVarCall = sequenceBackendDeleteValidateBeforeCall(type, apiId, null);
-        return localVarApiClient.execute(localVarCall);
-    }
-
-    /**
-     * Delete Sequence Backend of the API (asynchronously)
-     * This operation can be used to remove the Sequence Backend of the API
-     * @param type Type of the Endpoint. SANDBOX or PRODUCTION  (required)
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Resource successfully deleted.  </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call sequenceBackendDeleteAsync(String type, String apiId, final ApiCallback<Void> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = sequenceBackendDeleteValidateBeforeCall(type, apiId, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
-        return localVarCall;
-    }
-    /**
-     * Build call for sequenceBackendUpdate
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param sequence The sequence that needs to be uploaded. (optional)
-     * @param type Type of the Endpoint (optional)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated API object  </td><td>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call sequenceBackendUpdateCall(String apiId, File sequence, String type, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/apis/{apiId}/sequence-backend"
-            .replaceAll("\\{" + "apiId" + "\\}", localVarApiClient.escapeString(apiId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (sequence != null) {
-            localVarFormParams.put("sequence", sequence);
-        }
-
-        if (type != null) {
-            localVarFormParams.put("type", type);
-        }
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-            "multipart/form-data"
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        String[] localVarAuthNames = new String[] { "OAuth2Security" };
-        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call sequenceBackendUpdateValidateBeforeCall(String apiId, File sequence, String type, final ApiCallback _callback) throws ApiException {
-        
-        // verify the required parameter 'apiId' is set
-        if (apiId == null) {
-            throw new ApiException("Missing the required parameter 'apiId' when calling sequenceBackendUpdate(Async)");
-        }
-        
-
-        okhttp3.Call localVarCall = sequenceBackendUpdateCall(apiId, sequence, type, _callback);
-        return localVarCall;
-
-    }
-
-    /**
-     * Upload Sequence Sequence as the Endpoint of the API
-     * This operation can be used to change the endpoint of the API to Sequence Backend
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param sequence The sequence that needs to be uploaded. (optional)
-     * @param type Type of the Endpoint (optional)
-     * @return APIDTO
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated API object  </td><td>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public APIDTO sequenceBackendUpdate(String apiId, File sequence, String type) throws ApiException {
-        ApiResponse<APIDTO> localVarResp = sequenceBackendUpdateWithHttpInfo(apiId, sequence, type);
-        return localVarResp.getData();
-    }
-
-    /**
-     * Upload Sequence Sequence as the Endpoint of the API
-     * This operation can be used to change the endpoint of the API to Sequence Backend
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param sequence The sequence that needs to be uploaded. (optional)
-     * @param type Type of the Endpoint (optional)
-     * @return ApiResponse&lt;APIDTO&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated API object  </td><td>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<APIDTO> sequenceBackendUpdateWithHttpInfo(String apiId, File sequence, String type) throws ApiException {
-        okhttp3.Call localVarCall = sequenceBackendUpdateValidateBeforeCall(apiId, sequence, type, null);
-        Type localVarReturnType = new TypeToken<APIDTO>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
-    }
-
-    /**
-     * Upload Sequence Sequence as the Endpoint of the API (asynchronously)
-     * This operation can be used to change the endpoint of the API to Sequence Backend
-     * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
-     * @param sequence The sequence that needs to be uploaded. (optional)
-     * @param type Type of the Endpoint (optional)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated API object  </td><td>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
-        <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> Conflict. Specified resource already exists. </td><td>  -  </td></tr>
-        <tr><td> 412 </td><td> Precondition Failed. The request has not been performed because one of the preconditions is not met. </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call sequenceBackendUpdateAsync(String apiId, File sequence, String type, final ApiCallback<APIDTO> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = sequenceBackendUpdateValidateBeforeCall(apiId, sequence, type, _callback);
-        Type localVarReturnType = new TypeToken<APIDTO>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
-        return localVarCall;
-    }
-    /**
      * Build call for updateAPI
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param APIDTO API object that needs to be added (required)
@@ -4369,8 +3824,8 @@ public class ApIsApi {
     }
 
     /**
-     * Update Topics
-     * This operation can be used to update topics of an existing API.
+     * Update Topics of an Async API
+     * This operation can be used to update topics of an existing async API.
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param topicListDTO API object that needs to be added (required)
      * @param ifMatch Validator for conditional requests; based on ETag.  (optional)
@@ -4388,8 +3843,8 @@ public class ApIsApi {
     }
 
     /**
-     * Update Topics
-     * This operation can be used to update topics of an existing API.
+     * Update Topics of an Async API
+     * This operation can be used to update topics of an existing async API.
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param topicListDTO API object that needs to be added (required)
      * @param ifMatch Validator for conditional requests; based on ETag.  (optional)
@@ -4408,8 +3863,8 @@ public class ApIsApi {
     }
 
     /**
-     * Update Topics (asynchronously)
-     * This operation can be used to update topics of an existing API.
+     * Update Topics of an Async API (asynchronously)
+     * This operation can be used to update topics of an existing async API.
      * @param apiId **API ID** consisting of the **UUID** of the API.  (required)
      * @param topicListDTO API object that needs to be added (required)
      * @param ifMatch Validator for conditional requests; based on ETag.  (optional)
@@ -4441,7 +3896,7 @@ public class ApIsApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
+        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
         <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
@@ -4515,7 +3970,7 @@ public class ApIsApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
+        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
         <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
@@ -4538,7 +3993,7 @@ public class ApIsApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
+        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
         <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>
@@ -4563,7 +4018,7 @@ public class ApIsApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
+        <tr><td> 200 </td><td> OK. Successful response with updated WSDL definition  </td><td>  * ETag - Entity Tag of the response resource. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Last-Modified - Date and time the resource has been modifed the last time. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Location - The URL of the newly created resource.  <br>  * Content-Type - The content type of the body.  <br>  </td></tr>
         <tr><td> 400 </td><td> Bad Request. Invalid request or validation error. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> Forbidden. The request must be conditional but no condition has been specified. </td><td>  -  </td></tr>
         <tr><td> 404 </td><td> Not Found. The specified resource does not exist. </td><td>  -  </td></tr>

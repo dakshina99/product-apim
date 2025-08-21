@@ -79,7 +79,7 @@ This endpoint does not need any parameter.
 
 Get the List of External Stores to which an API is Published
 
-This operation can be used to retrieve a list of external stores which an API is published to by providing the id of the API. 
+This operation can be used to retrieve a list of external stores which an API is published to by providing the ID of the API. 
 
 ### Example
 ```java
@@ -213,7 +213,7 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK. API was successfully published to all the selected external stores.  |  * ETag - Entity Tag of the blocked subscription. Used by caches, or in conditional requests (Will be supported in future).  <br>  * Last-Modified - Date and time the subscription has been blocked. Used by caches, or in conditional requests (Will be supported in future).  <br>  |
+**200** | OK. API was successfully published to all the selected external stores.  |  * ETag - Entity Tag of the blocked subscription. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  * Last-Modified - Date and time the subscription which was blocked. Used by caches, or in conditional requests (This is not supported by WSO2 API Manager as of yet).  <br>  |
 **404** | Not Found. The specified resource does not exist. |  -  |
 **500** | Internal Server Error. |  -  |
 

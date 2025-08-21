@@ -236,7 +236,7 @@ null (empty response body)
 
 Retrieve Revision
 
-Retrieve a revision of an API Product 
+Retrieve a revision of an API Product (This resource is not supported at the moment) 
 
 ### Example
 ```java

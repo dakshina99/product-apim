@@ -392,7 +392,7 @@ null (empty response body)
 
 Get a List of Documents of an API Product
 
-This operation can be used to retrive a list of documents belonging to an API Product by providing the id of the API Product. 
+This operation can be used to retrive a list of documents belonging to an API Product by providing the ID of the API Product. 
 
 ### Example
 ```java

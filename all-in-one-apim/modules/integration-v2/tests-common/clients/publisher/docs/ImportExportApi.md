@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 <a name="exportAPI"></a>
 # **exportAPI**
-> File exportAPI(apiId, name, version, revisionNumber, providerName, format, preserveStatus, latestRevision)
+> File exportAPI(apiId, name, version, revisionNumber, providerName, format, preserveStatus, latestRevision, gatewayEnvironment, preserveCredentials)
 
 Export an API
 
@@ -46,10 +46,12 @@ public class Example {
     String revisionNumber = "revisionNumber_example"; // String | Revision number of the API artifact 
     String providerName = "providerName_example"; // String | Provider name of the API 
     String format = "format_example"; // String | Format of output documents. Can be YAML or JSON. 
-    Boolean preserveStatus = true; // Boolean | Preserve API Status on export 
+    Boolean preserveStatus = true; // Boolean | Preserve API Status during export 
     Boolean latestRevision = false; // Boolean | Export the latest revision of the API 
+    String gatewayEnvironment = "gatewayEnvironment_example"; // String | Gateway environment of the exported APIs 
+    Boolean preserveCredentials = false; // Boolean | Preserve endpoint configuration credentials and secret parameters 
     try {
-      File result = apiInstance.exportAPI(apiId, name, version, revisionNumber, providerName, format, preserveStatus, latestRevision);
+      File result = apiInstance.exportAPI(apiId, name, version, revisionNumber, providerName, format, preserveStatus, latestRevision, gatewayEnvironment, preserveCredentials);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling ImportExportApi#exportAPI");
@@ -72,8 +74,10 @@ Name | Type | Description  | Notes
  **revisionNumber** | **String**| Revision number of the API artifact  | [optional]
  **providerName** | **String**| Provider name of the API  | [optional]
  **format** | **String**| Format of output documents. Can be YAML or JSON.  | [optional] [enum: JSON, YAML]
- **preserveStatus** | **Boolean**| Preserve API Status on export  | [optional]
+ **preserveStatus** | **Boolean**| Preserve API Status during export  | [optional]
  **latestRevision** | **Boolean**| Export the latest revision of the API  | [optional] [default to false]
+ **gatewayEnvironment** | **String**| Gateway environment of the exported APIs  | [optional]
+ **preserveCredentials** | **Boolean**| Preserve endpoint configuration credentials and secret parameters  | [optional] [default to false]
 
 ### Return type
 
@@ -278,7 +282,7 @@ public class Example {
     OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
 
     ImportExportApi apiInstance = new ImportExportApi(defaultClient);
-    File file = new File("/path/to/file"); // File | Zip archive consisting on exported api configuration
+    File file = new File("/path/to/file"); // File | Zip archive consisting on exported API configuration
     Boolean preserveProvider = true; // Boolean | Preserve Original Provider of the API. This is the user choice to keep or replace the API provider 
     Boolean rotateRevision = true; // Boolean | Once the revision max limit reached, undeploy and delete the earliest revision and create a new revision 
     Boolean overwrite = true; // Boolean | Whether to update the API or not. This is used when updating already existing APIs 
@@ -299,7 +303,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file** | **File**| Zip archive consisting on exported api configuration |
+ **file** | **File**| Zip archive consisting on exported API configuration |
  **preserveProvider** | **Boolean**| Preserve Original Provider of the API. This is the user choice to keep or replace the API provider  | [optional]
  **rotateRevision** | **Boolean**| Once the revision max limit reached, undeploy and delete the earliest revision and create a new revision  | [optional]
  **overwrite** | **Boolean**| Whether to update the API or not. This is used when updating already existing APIs  | [optional]

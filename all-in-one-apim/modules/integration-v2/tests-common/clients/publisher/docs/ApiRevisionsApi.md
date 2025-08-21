@@ -6,7 +6,6 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createAPIRevision**](ApiRevisionsApi.md#createAPIRevision) | **POST** /apis/{apiId}/revisions | Create API Revision
 [**deleteAPIRevision**](ApiRevisionsApi.md#deleteAPIRevision) | **DELETE** /apis/{apiId}/revisions/{revisionId} | Delete Revision
-[**deleteAPIRevisionDeploymentPendingTask**](ApiRevisionsApi.md#deleteAPIRevisionDeploymentPendingTask) | **DELETE** /apis/{apiId}/cancel-revision-workflow/{revisionId}/{envName} | Delete Pending Revision Deployment Workflow Tasks
 [**deployAPIRevision**](ApiRevisionsApi.md#deployAPIRevision) | **POST** /apis/{apiId}/deploy-revision | Deploy Revision
 [**getAPIRevision**](ApiRevisionsApi.md#getAPIRevision) | **GET** /apis/{apiId}/revisions/{revisionId} | Retrieve Revision
 [**getAPIRevisionDeployments**](ApiRevisionsApi.md#getAPIRevisionDeployments) | **GET** /apis/{apiId}/deployments | List Deployments
@@ -158,78 +157,6 @@ Name | Type | Description  | Notes
 **204** | No Content. Successfully deleted the revision  |  -  |
 **404** | Not Found. The specified resource does not exist. |  -  |
 
-<a name="deleteAPIRevisionDeploymentPendingTask"></a>
-# **deleteAPIRevisionDeploymentPendingTask**
-> deleteAPIRevisionDeploymentPendingTask(apiId, revisionId, envName)
-
-Delete Pending Revision Deployment Workflow Tasks
-
-This operation can be used to remove pending revision deployment requests that are in pending state 
-
-### Example
-```java
-// Import classes:
-import org.wso2.am.integration.clients.publisher.api.ApiClient;
-import org.wso2.am.integration.clients.publisher.api.ApiException;
-import org.wso2.am.integration.clients.publisher.api.Configuration;
-import org.wso2.am.integration.clients.publisher.api.auth.*;
-import org.wso2.am.integration.clients.publisher.api.models.*;
-import org.wso2.am.integration.clients.publisher.api.v1.ApiRevisionsApi;
-
-public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://apis.wso2.com/api/am/publisher/v4");
-    
-    // Configure OAuth2 access token for authorization: OAuth2Security
-    OAuth OAuth2Security = (OAuth) defaultClient.getAuthentication("OAuth2Security");
-    OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
-
-    ApiRevisionsApi apiInstance = new ApiRevisionsApi(defaultClient);
-    String apiId = "apiId_example"; // String | **API ID** consisting of the **UUID** of the API. 
-    String revisionId = "revisionId_example"; // String | Revision ID of an API 
-    String envName = "envName_example"; // String | Environment name of an Revision 
-    try {
-      apiInstance.deleteAPIRevisionDeploymentPendingTask(apiId, revisionId, envName);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling ApiRevisionsApi#deleteAPIRevisionDeploymentPendingTask");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
-    }
-  }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **apiId** | **String**| **API ID** consisting of the **UUID** of the API.  |
- **revisionId** | **String**| Revision ID of an API  |
- **envName** | **String**| Environment name of an Revision  |
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-[OAuth2Security](../README.md#OAuth2Security)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | OK. Revision deployment pending task removed successfully.  |  -  |
-**404** | Not Found. The specified resource does not exist. |  -  |
-**412** | Precondition Failed. The request has not been performed because one of the preconditions is not met. |  -  |
-
 <a name="deployAPIRevision"></a>
 # **deployAPIRevision**
 > List&lt;APIRevisionDeploymentDTO&gt; deployAPIRevision(apiId, revisionId, apIRevisionDeploymentDTO)
@@ -309,7 +236,7 @@ Name | Type | Description  | Notes
 
 Retrieve Revision
 
-Retrieve a revision of an API 
+Retrieve a revision of an API (This resource is not supported in the current release) 
 
 ### Example
 ```java

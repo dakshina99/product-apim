@@ -11,7 +11,9 @@ Name | Type | Description | Notes
 **httpPort** | **Integer** |  |  [optional]
 **httpsPort** | **Integer** |  |  [optional]
 **wsPort** | **Integer** |  |  [optional]
+**wsHost** | **String** |  |  [optional]
 **wssPort** | **Integer** |  |  [optional]
+**wssHost** | **String** |  |  [optional]
 **websubHttpPort** | **Integer** |  |  [optional]
 **websubHttpsPort** | **Integer** |  |  [optional]
 

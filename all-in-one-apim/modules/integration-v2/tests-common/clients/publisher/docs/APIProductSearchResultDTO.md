@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **provider** | **String** | If the provider value is not given, the user invoking the API will be used as the provider.  |  [optional]
 **status** | **String** | This describes in which status of the lifecycle the APIPRODUCT is |  [optional]
 **thumbnailUri** | **String** |  |  [optional]
+**hasThumbnail** | **Boolean** |  |  [optional]
 
 
 

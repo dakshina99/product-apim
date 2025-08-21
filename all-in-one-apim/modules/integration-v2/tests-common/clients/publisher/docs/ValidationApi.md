@@ -184,7 +184,7 @@ public class Example {
 
     ValidationApi apiInstance = new ValidationApi(defaultClient);
     String endpointUrl = "endpointUrl_example"; // String | API endpoint url
-    String apiId = "apiId_example"; // String | 
+    String apiId = "apiId_example"; // String | API ID consisting of the UUID of the API
     try {
       ApiEndpointValidationResponseDTO result = apiInstance.validateEndpoint(endpointUrl, apiId);
       System.out.println(result);
@@ -204,7 +204,7 @@ public class Example {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **endpointUrl** | **String**| API endpoint url |
- **apiId** | **String**|  | [optional]
+ **apiId** | **String**| API ID consisting of the UUID of the API | [optional]
 
 ### Return type
 

@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **status** | **String** | This describes in which status of the lifecycle the API is |  [optional]
 **thumbnailUri** | **String** |  |  [optional]
 **advertiseOnly** | **Boolean** |  |  [optional]
+**hasThumbnail** | **Boolean** |  |  [optional]
 
 
 

@@ -454,7 +454,7 @@ public class Example {
     OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
 
     ScopesApi apiInstance = new ScopesApi(defaultClient);
-    String scopeId = "scopeId_example"; // String | Scope name 
+    String scopeId = "scopeId_example"; // String | Base64 URL encoded value of the scope name 
     try {
       apiInstance.validateScope(scopeId);
     } catch (ApiException e) {
@@ -472,7 +472,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **scopeId** | **String**| Scope name  |
+ **scopeId** | **String**| Base64 URL encoded value of the scope name  |
 
 ### Return type
 

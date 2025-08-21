@@ -4,18 +4,18 @@ All URIs are relative to *https://apis.wso2.com/api/am/publisher/v4*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getGraphQLPolicyComplexityOfAPI**](GraphQlPoliciesApi.md#getGraphQLPolicyComplexityOfAPI) | **GET** /apis/{apiId}/graphql-policies/complexity | Get the Complexity Related Details of an API
+[**getGraphQLPolicyComplexityOfAPI**](GraphQlPoliciesApi.md#getGraphQLPolicyComplexityOfAPI) | **GET** /apis/{apiId}/graphql-policies/complexity | Get the Complexity-Related Details of an API
 [**getGraphQLPolicyComplexityTypesOfAPI**](GraphQlPoliciesApi.md#getGraphQLPolicyComplexityTypesOfAPI) | **GET** /apis/{apiId}/graphql-policies/complexity/types | Retrieve Types and Fields of a GraphQL Schema
-[**updateGraphQLPolicyComplexityOfAPI**](GraphQlPoliciesApi.md#updateGraphQLPolicyComplexityOfAPI) | **PUT** /apis/{apiId}/graphql-policies/complexity | Update Complexity Related Details of an API
+[**updateGraphQLPolicyComplexityOfAPI**](GraphQlPoliciesApi.md#updateGraphQLPolicyComplexityOfAPI) | **PUT** /apis/{apiId}/graphql-policies/complexity | Update Complexity-Related Details of an API
 
 
 <a name="getGraphQLPolicyComplexityOfAPI"></a>
 # **getGraphQLPolicyComplexityOfAPI**
 > GraphQLQueryComplexityInfoDTO getGraphQLPolicyComplexityOfAPI(apiId)
 
-Get the Complexity Related Details of an API
+Get the Complexity-Related Details of an API
 
-This operation can be used to retrieve complexity related details belonging to an API by providing the API id. 
+This operation can be used to retrieve complexity-related details belonging to an API by providing the API ID. 
 
 ### Example
 ```java
@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 Retrieve Types and Fields of a GraphQL Schema
 
-This operation can be used to retrieve all types and fields of the GraphQL Schema by providing the API id. 
+This operation can be used to retrieve all types and fields of the GraphQL Schema by providing the API ID. 
 
 ### Example
 ```java
@@ -149,9 +149,9 @@ Name | Type | Description  | Notes
 # **updateGraphQLPolicyComplexityOfAPI**
 > updateGraphQLPolicyComplexityOfAPI(apiId, graphQLQueryComplexityInfoDTO)
 
-Update Complexity Related Details of an API
+Update Complexity-Related Details of an API
 
-This operation can be used to update complexity details belonging to an API by providing the id of the API. 
+This operation can be used to update complexity-related details belonging to an API by providing the API ID. 
 
 ### Example
 ```java
