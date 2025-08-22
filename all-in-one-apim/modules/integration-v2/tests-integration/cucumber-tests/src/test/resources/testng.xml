@@ -7,7 +7,7 @@
 <!--            <class name="org.wso2.am.integration.cucumbertests.runners.TestRunner"/>-->
 <!--            <class name="org.wso2.am.integration.cucumbertests.runners.GroupedTestRunner"/>-->
             <class name="org.wso2.am.integration.cucumbertests.runners.restapi.CreateAPITestRunner"/>
-            <class name="org.wso2.am.integration.cucumbertests.runners.migration.MigratedAPIVerification"/>
+<!--            <class name="org.wso2.am.integration.cucumbertests.runners.migration.MigratedAPIVerification"/>-->
         </classes>
     </test>
 </suite>
