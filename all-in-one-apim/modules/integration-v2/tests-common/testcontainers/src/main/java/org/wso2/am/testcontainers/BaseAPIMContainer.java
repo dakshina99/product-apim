@@ -25,11 +25,14 @@ public abstract class BaseAPIMContainer extends GenericContainer<BaseAPIMContain
         withCommand("sh /opt/bin/api-manager.sh");
         withNetwork(ContainerNetwork.SHARED_NETWORK);
 
+        System.out.println("API_MANAGER_DATABASE_URL: " + System.getenv("API_MANAGER_DATABASE_URL"));
+        System.out.println("SHARED_DATABASE_URL: " + System.getenv("SHARED_DATABASE_URL"));
+
         // Env vars for APIMGT_DB
         withEnv("API_MANAGER_DATABASE_TYPE", System.getenv("API_MANAGER_DATABASE_TYPE"));
         withEnv("API_MANAGER_DATABASE_TYPE", System.getenv("API_MANAGER_DATABASE_TYPE"));
         withEnv("API_MANAGER_DATABASE_DRIVER", System.getenv("API_MANAGER_DATABASE_DRIVER"));
-        withEnv("API_MANAGER_DATABASE_URL", System.getenv("API_MANAGER_DATABASE_URL").replace("&", "&amp;"));
+        withEnv("API_MANAGER_DATABASE_URL", System.getenv("API_MANAGER_DATABASE_URL"));
         withEnv("API_MANAGER_DATABASE_USERNAME", System.getenv("API_MANAGER_DATABASE_USERNAME"));
         withEnv("API_MANAGER_DATABASE_PASSWORD", System.getenv("API_MANAGER_DATABASE_PASSWORD"));
         withEnv("API_MANAGER_DATABASE_VALIDATION_QUERY", System.getenv("API_MANAGER_DATABASE_VALIDATION_QUERY"));
@@ -37,7 +40,7 @@ public abstract class BaseAPIMContainer extends GenericContainer<BaseAPIMContain
         // Env vars for SHARED_DB
         withEnv("SHARED_DATABASE_TYPE", System.getenv("SHARED_DATABASE_TYPE"));
         withEnv("SHARED_DATABASE_DRIVER", System.getenv("SHARED_DATABASE_DRIVER"));
-        withEnv("SHARED_DATABASE_URL", System.getenv("SHARED_DATABASE_URL").replace("&", "&amp;"));
+        withEnv("SHARED_DATABASE_URL", System.getenv("SHARED_DATABASE_URL"));
         withEnv("SHARED_DATABASE_USERNAME", System.getenv("SHARED_DATABASE_USERNAME"));
         withEnv("SHARED_DATABASE_PASSWORD", System.getenv("SHARED_DATABASE_PASSWORD"));
         withEnv("SHARED_DATABASE_VALIDATION_QUERY", System.getenv("SHARED_DATABASE_VALIDATION_QUERY"));

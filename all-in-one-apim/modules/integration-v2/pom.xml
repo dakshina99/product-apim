@@ -23,6 +23,7 @@
         <wso2.port>9443</wso2.port>
         <skipCertificateFetch>false</skipCertificateFetch>
         <!-- Shared DB defaults -->
+        <shared.database.type>mysql</shared.database.type>
         <shared.database.driver>com.mysql.cj.jdbc.Driver</shared.database.driver>
         <shared.database.url>jdbc:mysql://host.docker.internal:3307/shared_db?allowPublicKeyRetrieval=true&amp;useSSL=false</shared.database.url>
         <shared.database.username>shared_user</shared.database.username>
@@ -30,6 +31,7 @@
         <shared.database.validationQuery>SELECT 1</shared.database.validationQuery>
 
         <!-- APIM DB defaults -->
+        <apim.database.type>mysql</apim.database.type>
         <apim.database.driver>com.mysql.cj.jdbc.Driver</apim.database.driver>
         <apim.database.url>jdbc:mysql://host.docker.internal:3306/apim_db?allowPublicKeyRetrieval=true&amp;useSSL=false</apim.database.url>
         <apim.database.username>apim_user</apim.database.username>
@@ -55,7 +57,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.20.4</version>
+            <version>2.0.2</version>
         </dependency>
 
         <dependency>
@@ -138,21 +140,6 @@
                                 <testcontainers.reuse.enable>true</testcontainers.reuse.enable>
                                 <module.dir>${project.basedir}</module.dir>
                             </systemPropertyVariables>
-                            <environmentVariables>
-                                <SHARED_DATABASE_TYPE>mysql</SHARED_DATABASE_TYPE>
-                                <SHARED_DATABASE_DRIVER>com.mysql.cj.jdbc.Driver</SHARED_DATABASE_DRIVER>
-                                <SHARED_DATABASE_URL>jdbc:mysql://host.docker.internal:3307/shared_db?allowPublicKeyRetrieval=true&amp;useSSL=false</SHARED_DATABASE_URL>
-                                <SHARED_DATABASE_USERNAME>shared_user</SHARED_DATABASE_USERNAME>
-                                <SHARED_DATABASE_PASSWORD>sharedpass</SHARED_DATABASE_PASSWORD>
-                                <SHARED_DATABASE_VALIDATION_QUERY>SELECT 1</SHARED_DATABASE_VALIDATION_QUERY>
-
-                                <API_MANAGER_DATABASE_TYPE>mysql</API_MANAGER_DATABASE_TYPE>
-                                <API_MANAGER_DATABASE_DRIVER>com.mysql.cj.jdbc.Driver</API_MANAGER_DATABASE_DRIVER>
-                                <API_MANAGER_DATABASE_URL>jdbc:mysql://host.docker.internal:3306/apim_db?allowPublicKeyRetrieval=true&amp;useSSL=false</API_MANAGER_DATABASE_URL>
-                                <API_MANAGER_DATABASE_USERNAME>apim_user</API_MANAGER_DATABASE_USERNAME>
-                                <API_MANAGER_DATABASE_PASSWORD>apimpass</API_MANAGER_DATABASE_PASSWORD>
-                                <API_MANAGER_DATABASE_VALIDATION_QUERY>SELECT 1</API_MANAGER_DATABASE_VALIDATION_QUERY>
-                            </environmentVariables>
                         </configuration>
                     </plugin>
 
@@ -190,21 +177,19 @@
                                 <module.dir>${project.basedir}</module.dir>
                             </systemPropertyVariables>
                             <environmentVariables>
-                                <SHARED_DATABASE_DRIVER>org.h2.Driver</SHARED_DATABASE_DRIVER>
-                                <SHARED_DATABASE_URL>
-                                    jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE
-                                </SHARED_DATABASE_URL>
-                                <SHARED_DATABASE_USERNAME>wso2carbon</SHARED_DATABASE_USERNAME>
-                                <SHARED_DATABASE_PASSWORD>wso2carbon</SHARED_DATABASE_PASSWORD>
-                                <SHARED_DATABASE_VALIDATION_QUERY>SELECT 1</SHARED_DATABASE_VALIDATION_QUERY>
+                                <SHARED_DATABASE_TYPE>${shared.database.type}</SHARED_DATABASE_TYPE>
+                                <SHARED_DATABASE_DRIVER>${shared.database.driver}</SHARED_DATABASE_DRIVER>
+                                <SHARED_DATABASE_URL>${shared.database.url}</SHARED_DATABASE_URL>
+                                <SHARED_DATABASE_USERNAME>${shared.database.username}</SHARED_DATABASE_USERNAME>
+                                <SHARED_DATABASE_PASSWORD>${shared.database.password}</SHARED_DATABASE_PASSWORD>
+                                <SHARED_DATABASE_VALIDATION_QUERY>${shared.database.validationQuery}</SHARED_DATABASE_VALIDATION_QUERY>
 
-                                <API_MANAGER_DATABASE_DRIVER>org.h2.Driver</API_MANAGER_DATABASE_DRIVER>
-                                <API_MANAGER_DATABASE_URL>
-                                    jdbc:h2:./repository/database/WSO2AM_DB;DB_CLOSE_ON_EXIT=FALSE
-                                </API_MANAGER_DATABASE_URL>
-                                <API_MANAGER_DATABASE_USERNAME>wso2carbon</API_MANAGER_DATABASE_USERNAME>
-                                <API_MANAGER_DATABASE_PASSWORD>wso2carbon</API_MANAGER_DATABASE_PASSWORD>
-                                <API_MANAGER_DATABASE_VALIDATION_QUERY>SELECT 1</API_MANAGER_DATABASE_VALIDATION_QUERY>
+                                <API_MANAGER_DATABASE_TYPE>${apim.database.type}</API_MANAGER_DATABASE_TYPE>
+                                <API_MANAGER_DATABASE_DRIVER>${apim.database.driver}</API_MANAGER_DATABASE_DRIVER>
+                                <API_MANAGER_DATABASE_URL>${apim.database.url}</API_MANAGER_DATABASE_URL>
+                                <API_MANAGER_DATABASE_USERNAME>${apim.database.username}</API_MANAGER_DATABASE_USERNAME>
+                                <API_MANAGER_DATABASE_PASSWORD>${apim.database.password}</API_MANAGER_DATABASE_PASSWORD>
+                                <API_MANAGER_DATABASE_VALIDATION_QUERY>${apim.database.validationQuery}</API_MANAGER_DATABASE_VALIDATION_QUERY>
                             </environmentVariables>
                         </configuration>
                     </plugin>

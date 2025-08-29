@@ -22,7 +22,7 @@ This document provides a detailed explanation of the container classes implement
 This is the abstract base class for all API Manager containers. It extends `GenericContainer` from Testcontainers and provides common configuration and utility methods for APIM containers.
 
 **Key Features:**
-- Uses a base Docker image (e.g., `openjdk:11-jre-slim`).
+- Uses a base Docker image (e.g., `openjdk:22-jdk-slim`).
 - Exposes the required ports for APIM and Gateway (9443, 9763, 8243, 8280).
 - Copies the API Manager distribution into the container.
 - Sets up the container command and waits for the APIM server to be ready.

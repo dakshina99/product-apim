@@ -66,8 +66,8 @@ public class Constants {
 
     public static final String REPOSITORY_ROOT =  "product-apim";
     public static final String API_MANAGER_DATABASE_TYPE = "API_MANAGER_DATABASE_TYPE";
-    public static final String DOCKER_IMAGE = "openjdk:11-jre-slim";
+    public static final String DOCKER_IMAGE = "openjdk:22-jdk-slim";
 
-    public static final String API_MANAGER_DIR = "/src/main/resources/apim/wso2am-4.5.0";
+    public static final String API_MANAGER_DIR = "/src/main/resources/apim/wso2am-4.6.0";
     public static final String TOML_PATH = "/opt/repository/conf/deployment.toml";
 }
