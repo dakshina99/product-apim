@@ -16,6 +16,7 @@ Feature: Migrated API Verification
     And I get the generated access token from file "features/migration/accessTokens/api_invocation_access_tokens.json"
     And I invoke API of ID "<selectedApiId>" with path "/customers/123/" and method GET using access token "<generatedAccessToken>"
     Then The response status code should be 200
+    And The response should contain the header "x-response-header" with value "x-res-value"
 
     And I update API of id "<selectedApiId>" with the following details
       | description         | Simple Customer Service API description   2                   |
